@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="../static/style.css" th:href="@{/style.css}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="../static/scripts.js" th:src="@{/scripts.js}"></script>
+
+    <title th:text="${housingAssociation.name}"></title>
+
+</head>
+<body>
+
+    <!-- Housing Association Name -->
+    <div class="container-fluid housingAssociationHeader text-center" id="housingAssociationHeader">
+        <h2 th:text="${housingAssociation.name}"></h2>
+        <p style="position: absolute; top: 5px; right: 5px"><a th:href="'/'" th:text="|< Back To Homepage <|" style="color: white;"></a></p>
+    </div>
+    <!-- Housing Association Details -->
+
+    <div class="container-fluid housingAssociationDetails text-center" id="housingAssociationDetails">
+        <div align="center" style="background-color: white; color: #808080">
+                <table class="table" style="width: 80%; text-align: center; font-size: 20px; margin-top: 10%; margin-bottom: 10%">
+                    <thead>
+                    <tr>
+                        <th scope="col">Address</th>
+                        <th scope="col">Number Of Flats</th>
+                        <th scope="col">Flats Areas in Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td th:text="|${housingAssociation.street} ${housingAssociation.number}|">Address</td>
+                        <td th:text="|${numberOfFlats}|">number of flats</td>
+                        <td th:text="|${sum}|">flats areas in total</td>
+                    </tr>
+                    </tbody>
+                </table>
+    </div>
+    <!-- Housing Association Navigation -->
+    <div class="container-fluid hsNavigation text-center" id="hsNavigation">
+        <div id="accordion">
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" data-toggle="collapse" style="color: #808080" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            List Of Flats
+                        </button>
+                    </h5>
+                </div>
+
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="container-fluid listOfFlatsOfHousingAssociations text-center" id="listOfFlatsOfHousingAssociations">
+                            <div align="center" style="background-color: #808080; color: white">
+                                <div>
+                                    <table class="table table-hover" style="width: 50%; text-align: center">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Number</th>
+                                            <th scope="col">Area</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="flat : ${housingAssociation.flats}">
+                                            <td><a style="color: white" th:href="'/flat?id=' + ${flat.id}" th:text="*{flat.number}" /></td>
+                                            <td th:text="|*{flat.areaSqrMeter}|">area</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingTwo">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" style="color: #808080" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Add Flat
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                    <div class="card-body">
+                        <!-- Add Flat To Housing Association -->
+                        <div class="container-fluid addPanel text-center" style="color: white" id="addPanel">
+                            <h3>Add Flat</h3>
+                            <div align="center">
+                                <form action="#" method="post" th:action="@{/addflat}" th:object="${flat}">
+                                    <input type="hidden" th:field="*{housingAssociation}"/>
+                                    <div class="form-group">
+                                        <label for="flatNumber">Number</label>
+                                        <input type="text" class="form-control" id="flatNumber" th:field="*{number}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="flatAreaSqrMeter">Area in square meters</label>
+                                        <input type="text" class="form-control" id="flatAreaSqrMeter" th:field="*{areaSqrMeter}">
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Add Flat</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingThree">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" style="color: #808080" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Edit
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                    <div class="card-body">
+                        <!-- Edit Housing Association -->
+                        <div class="container-fluid editHousingAssociation text-center" id="editHousingAssociation" style="background-color: #808080; color: white">
+                            <h3>Edit Housing Association</h3>
+                            <div align="center">
+                                <form action="#" method="post" th:action="@{/editHousingAssociation}" th:object="${housingAssociation}" style="width: 50%">
+                                    <div class="form-group">
+                                        <label for="name">Name</label>
+                                        <input type="text" class="form-control" id="name" th:field="*{name}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="street">Street</label>
+                                        <input type="text" class="form-control" id="street" th:field="*{street}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="number">Number</label>
+                                        <input type="text" class="form-control" id="number" th:field="*{number}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="numberOfFlats">Number Of Flats</label>
+                                        <input type="text" class="form-control" id="numberOfFlats" th:field="*{numberOfFlats}">
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Save Changes</button>
+                                    <button type="reset" class="btn btn-default">Cancel</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingFour">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" style="color: #808080" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            Delete
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+                    <div class="card-body">
+                        <!-- Delete Housing Association -->
+                        <p th:text="|Are you sure you want to delete ${housingAssociation.name} Housing Association ?||"></p></br>
+                        <a id="deleteHousingAssociation" style="color: #808080" th:href="'/deleteHousingAssociation?id=' + ${housingAssociation.id}" th:text="|Delete|" />
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingFive">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" data-toggle="collapse" style="color: #808080" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                            List Of All Occupants
+                        </button>
+                    </h5>
+                </div>
+
+                <div id="collapseFive" class="collapse show" aria-labelledby="headingFive" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="container-fluid listOfOccupants text-center" style="background-color: #808080" id="listOfOccupants">
+                            <div align="center" style="background-color: #808080; color: white">
+                                <div>
+                                    <table class="table table-hover" style="width: 50%; text-align: center">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Surname</th>
+                                            <th scope="col">Gender</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            <div th:each="flat : ${housingAssociation.flats}">
+                                                <tr th:each="occupant : ${flat.occupants}">
+                                                    <td><a style="color: white" th:href="'/occupant?id=' + ${occupant.id}" th:text="*{occupant.name}" /></td>
+                                                    <td th:text="|*{occupant.surname}|">surname</td>
+                                                    <td th:text="|*{occupant.gender}|">gender</td>
+                                                </tr>
+                                            </div>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

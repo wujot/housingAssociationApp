@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <!-- Bootstrap CSS -->
+    <link href="../static/style.css" th:href="@{/style.css}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="../static/scripts.js" th:src="@{/scripts.js}"></script>
+
+    <title th:text="|${occupant.name} ${occupant.surname}|"></title>
+
+</head>
+<body>
+        <!-- Occupant Header -->
+        <div class="container-fluid housingAssociationHeader text-center" id="housingAssociationHeader">
+            <h2>Occupant Details</h2>
+            <p style="position: absolute; top: 5px; right: 5px"><a th:href="'/'" th:text="|< Back To Homepage <|" style="color: white;"></a></p>
+        </div>
+
+        <!-- Occupant Details -->
+    <div class="container-fluid occupantDetails text-center" id="occupantDetails">
+        <div align="center" style="background-color: white; color: #808080">
+            <table class="table" style="width: 80%; text-align: center; font-size: 20px; margin-top: 10%; margin-bottom: 10%">
+                <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Surname</th>
+                    <th scope="col">Gender</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td th:text="|${occupant.name}|"></td>
+                    <td th:text="|${occupant.surname}|"></td>
+                    <td th:text="|${occupant.gender}|"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Occupant Navigation -->
+        <div class="container-fluid hsNavigation text-center" id="hsNavigation">
+            <div id="accordion">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" style="color: #808080" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Edit Occupant
+                            </button>
+                        </h5>
+                    </div>
+
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" style="color: #808080" data-parent="#accordion">
+                        <div class="card-body">
+                            <!-- Edit Occupant -->
+                            <div class="container-fluid addPanel text-center" style="color: white" id="addPanel">
+                                <h3>Edit Occupant</h3>
+                                <div align="center">
+                                    <form action="#" method="post" style="width: 50%" th:action="@{/editoccupant}" th:object="${occupant}">
+                                        <div class="form-group">
+                                            <label for="occupantName">Name</label>
+                                            <input type="text" class="form-control" id="occupantName" th:field="*{name}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="occupantSurname">Surname</label>
+                                            <input type="text" class="form-control" id="occupantSurname" th:field="*{surname}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="occupantGender" class="form-control" id="occupantGender">Gender</label>
+                                            <select th:field="*{gender}">
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-default">Save changes</button>
+                                        <button type="reset" class="btn btn-default">Cancel</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingTwo">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" style="color: #808080" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Delete Occupant
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                        <div class="card-body">
+                            <p th:text="|Are you sure you want to delete Occupant ${occupant.name} ${occupant.surname} from Flat ${occupant.flat.number} Of ${occupant.flat.housingAssociation.name} Housing Association ?|"></p></br>
+                            <a id="deleteOccupant" style="color: #808080" th:href="'/deleteOccupant?id=' + ${occupant.id}" th:text="|Delete|" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+</div>
+
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
