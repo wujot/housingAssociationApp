@@ -47,6 +47,16 @@ public class HousingAssociationController {
             model.addAttribute("flat", flat);
             model.addAttribute("sum", sum);
             model.addAttribute("numberOfFlats", numberOfFlats);
+
+            // delete alert
+            String deleteMessage;
+            if (housingAssociation.getFlats().size() > 0) {
+                deleteMessage = "You can not delete Housing Association with flats";
+            }else {
+                deleteMessage = "Housing Association had been deleted";
+            }
+            model.addAttribute("deleteMessage", deleteMessage);
+
         } else {
             return "redirect:/";
         }

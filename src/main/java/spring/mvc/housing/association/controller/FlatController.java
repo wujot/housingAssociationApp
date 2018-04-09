@@ -33,7 +33,6 @@ public class FlatController {
 
     @GetMapping("/flat")
     public String flatDetails(@RequestParam int id, Model model) {
-
         Optional<HousingAssociation> housingAssociationOptional = housingAssociationRepository.findById(id);
         Optional<Flat> flatOptional = flatRepository.findById(id);
         List<Occupant> occupants = occupantRepository.findAll();
@@ -47,6 +46,16 @@ public class FlatController {
             model.addAttribute("flat", flat);
             model.addAttribute("occupant", occupant);
             model.addAttribute("occupants", occupants);
+
+            // delete alert
+            String deleteMessage;
+                if (flat.getOccupants().size() > 0) {
+                deleteMessage = "You can not delete flat with occupants";
+                }else {
+                    deleteMessage = "Flat had been deleted";
+                }
+            model.addAttribute("deleteMessage", deleteMessage);
+
         } else {
             return "redirect:/";
         }
@@ -64,14 +73,19 @@ public class FlatController {
     public String deleteFlat(@RequestParam int id, Model model) {
         Optional<Flat> flatOptional = flatRepository.findById(id);
         Flat flat = null;
-
         if (flatOptional.isPresent()) {
             flat = flatOptional.get();
             List<Occupant> occupants = flat.getOccupants();
             if (occupants.size() > 0){
+
+                //deleteMessage = "You can not delete flat with occupants";
+
                 System.out.println("You can not delete flat with occupants/");
                 return "redirect:/flat?id=" + flat.getId();
             }else {
+
+                //deleteMessage = "Flat had been deleted";
+
                 flatRepository.delete(flat);
             }
         }else {

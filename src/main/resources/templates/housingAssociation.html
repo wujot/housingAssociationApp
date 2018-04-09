@@ -162,7 +162,7 @@
                     <div class="card-body">
                         <!-- Delete Housing Association -->
                         <p th:text="|Are you sure you want to delete ${housingAssociation.name} Housing Association ?||"></p></br>
-                        <a id="deleteHousingAssociation" style="color: #808080" th:href="'/deleteHousingAssociation?id=' + ${housingAssociation.id}" th:text="|Delete|" />
+                        <a id="deleteHousingAssociation" style="color: #808080" th:href="'/deleteHousingAssociation?id=' + ${housingAssociation.id}" th:text="|Delete|" th:onclick="'alert(\'' + ${deleteMessage} + '\');'"/>
                     </div>
                 </div>
             </div>

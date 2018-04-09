@@ -101,6 +101,42 @@
                     </div>
                 </div>
             </div>
+            <div class="card">
+                <div class="card-header" id="headingThree">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" data-toggle="collapse" style="color: #808080" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                            List Of All Flats
+                        </button>
+                    </h5>
+                </div>
+
+                <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="container-fluid listOfFlatsOfHousingAssociations text-center" id="listOfFlatsOfHousingAssociations">
+                            <div align="center" style="background-color: #808080; color: white">
+                                <div>
+                                    <table class="table table-hover" style="width: 50%; text-align: center">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Housing Association</th>
+                                            <th scope="col">Number</th>
+                                            <th scope="col">Area</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="flat : ${flats}">
+                                            <td><a th:href="'/housingAssociation?id=' + ${flat.housingAssociation.id}" th:text="*{flat.housingAssociation.name}" /></td>
+                                            <td><a style="color: white" th:href="'/flat?id=' + ${flat.id}" th:text="*{flat.number}" /></td>
+                                            <td th:text="|*{flat.areaSqrMeter}|">area</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
